@@ -1,0 +1,55 @@
+buildscript {
+    ext {
+        repos = {
+            gradlePluginPortal()
+            mavenLocal()
+            mavenCentral()
+        }
+        lombokVersion = '1.18.12'
+        springBootVersion = '2.2.6.RELEASE'
+        jacksonDatabindVersion = '2.10.3'
+        pitestVersion = '1.4.6'
+        repositories(repos)
+    }
+}
+
+
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'info.solidsoft.pitest' version "$pitestVersion"
+}
+
+apply from: 'gradle/test.gradle'
+
+group 'com.trzewik'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories(repos)
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+
+    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
+    compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonDatabindVersion}"
+    compile "com.fasterxml.jackson.core:jackson-core:${jacksonDatabindVersion}"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+bootJar {
+    mainClassName = 'com.trzewik.activemq.App'
+    manifest {
+        attributes 'Start-Class': 'com.trzewik.activemq.App'
+    }
+    launchScript()
+}
+
+bootRun {
+    main = 'com.trzewik.activemq.App'
+}
