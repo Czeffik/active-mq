@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  activemq:
+    container_name: activemq
+    image: rmohr/activemq:5.15.9
+    ports:
+      # ui
+      - "8161:8161"
+      # jms
+      - "61616:61616"
