@@ -7,8 +7,8 @@ Start docker compose:
 docker-compose up
 ```
 Docker expose active-mq UI under:
-- [User ui](localhost:8161)
-- [Admin page](localhost:8161/admin/)
+- User ui: `localhost:8161`
+- Admin page: `localhost:8161/admin/`
 
 JMS address:
 - `localhost:61616`
