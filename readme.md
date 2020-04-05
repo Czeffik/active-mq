@@ -39,8 +39,7 @@ Open admin/send page:
 - type message body
 - click send button
 
-**When sending message to**: `InformationTopic` - it will trigger sending messages to `InformationQueue` and `VirtualTopic.InformationVirtualTopic`
-this logic is in `com.trzewik.activemq.interfaces.jms.information.InformationConsumer`
+**When sending message to**: `InformationTopic` - it will trigger sending messages to `InformationQueue`, `VirtualTopic.InformationVirtualTopic` and by `GRPC`
 
 ##### GRPC
 
@@ -50,6 +49,7 @@ GRPC is exposed on `localhost:6789`
 
 **How to test with BloomRPC**
 
+***Basic GRPC scenario:* consumer sends request and server sends response:**
 - open *BloomRPC* app - I recommend to show GIF in [README FILE](https://github.com/uw-labs/bloomrpc) to know how use this tool
 - import proto file from: `src/main/proto/InformationController.proto`
 - set server address as `localhost:6789`
@@ -68,3 +68,14 @@ After clicking play button (sending request), you should expect response like:
   "description": "description for: [Example ID]"
 }
 ```
+
+***Streaming GRPC scenario:* consumer sends request and server starts streaming responses:**
+
+- GRPC react on new message on ActiveMQ topic: `InformationTopic`
+- open *BloomRPC* app - I recommend to show GIF in [README FILE](https://github.com/uw-labs/bloomrpc) to know how use this tool
+- import proto file from: `src/main/proto/InformationStreamController.proto`
+- set server address as `localhost:6789`
+- send request and wait for server response
+- for producing server response use **ActiveMQ console** and send message to: `InformationTopic`
+
+

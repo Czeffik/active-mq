@@ -7,10 +7,12 @@ import com.trzewik.activemq.domain.information.InformationServiceFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 public class DomainConfiguration {
     @Bean
-    InformationService informationService(InformationProducer informationProducer, InformationRepository informationRepository) {
-        return InformationServiceFactory.create(informationProducer, informationRepository);
+    InformationService informationService(List<InformationProducer> informationProducers, InformationRepository informationRepository) {
+        return InformationServiceFactory.create(informationProducers, informationRepository);
     }
 }
