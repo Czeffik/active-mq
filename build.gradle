@@ -34,13 +34,13 @@ sourceCompatibility = 1.8
 repositories(repos)
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
-    compile "org.springframework:spring-jms:${springJmsVersion}"
-    compile "org.apache.activemq:activemq-spring:${activemqSpringVersion}"
+    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    implementation "org.springframework:spring-jms:${springJmsVersion}"
+    implementation "org.apache.activemq:activemq-spring:${activemqSpringVersion}"
 
-    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
-    compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonDatabindVersion}"
-    compile "com.fasterxml.jackson.core:jackson-core:${jacksonDatabindVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonDatabindVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${jacksonDatabindVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
