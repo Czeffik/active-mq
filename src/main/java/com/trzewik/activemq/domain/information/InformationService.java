@@ -7,4 +7,6 @@ public interface InformationService {
 
     // XD - I know...
     void notifyAllV2(String message);
+
+    Information getInformation(String id);
 }

@@ -12,7 +12,7 @@ import javax.jms.ConnectionFactory;
 public class CommonProducerConfiguration {
 
     @Bean
-    JmsTemplate jmsTemplate(ConnectionFactory activeMQProducerConnectionFactory){
+    JmsTemplate jmsTemplate(ConnectionFactory activeMQProducerConnectionFactory) {
         return new JmsTemplate(activeMQProducerConnectionFactory);
     }
 

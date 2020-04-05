@@ -13,3 +13,5 @@ jms:
     virtual:
       information: Consumer.InformationConsumer.${jms.topic.virtual.information}
       translation: Consumer.TranslationConsumer.${jms.topic.virtual.information}
+grpc:
+  port: 6789

@@ -1,0 +1,16 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.trzewik.activemq;
+
+message InformationRequest {
+    string id = 1;
+}
+
+message InformationResponse {
+    string name = 1;
+    string description = 2;
+}
+
+service InformationController {
+    rpc getInformation(InformationRequest) returns (InformationResponse);
+}

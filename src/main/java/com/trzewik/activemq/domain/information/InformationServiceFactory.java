@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InformationServiceFactory {
 
-    public static InformationService create(InformationProducer informationProducer) {
-        return new InformationServiceImpl(informationProducer);
+    public static InformationService create(InformationProducer informationProducer, InformationRepository informationRepository) {
+        return new InformationServiceImpl(informationProducer, informationRepository);
     }
 }
