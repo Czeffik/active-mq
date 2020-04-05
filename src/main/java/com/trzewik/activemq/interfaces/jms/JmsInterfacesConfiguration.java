@@ -10,5 +10,5 @@ import org.springframework.context.annotation.Import;
     TranslationConsumerConfiguration.class
 })
 @Configuration
-public class JmsConfiguration {
+public class JmsInterfacesConfiguration {
 }

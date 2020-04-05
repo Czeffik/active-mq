@@ -29,3 +29,6 @@ Open admin/send page:
 - type message body
 - click send button
 
+**When sending message to**: `InformationTopic` - it will trigger sending messages to `InformationQueue` and `VirtualTopic.InformationVirtualTopic`
+this logic is in `com.trzewik.activemq.interfaces.jms.information.InformationConsumer`
+

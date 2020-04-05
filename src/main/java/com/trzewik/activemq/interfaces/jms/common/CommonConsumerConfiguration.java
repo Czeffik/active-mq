@@ -14,12 +14,12 @@ import javax.jms.ConnectionFactory;
 public class CommonConsumerConfiguration {
     @Bean
     DefaultJmsListenerContainerFactory topicJmsListenerContainerFactory(
-        ConnectionFactory activeMQConnectionFactory,
+        ConnectionFactory activeMQConsumerConnectionFactory,
         DestinationResolver destinationResolver
     ) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
 
-        factory.setConnectionFactory(activeMQConnectionFactory);
+        factory.setConnectionFactory(activeMQConsumerConnectionFactory);
         factory.setDestinationResolver(destinationResolver);
         factory.setPubSubDomain(true);
 
@@ -28,12 +28,12 @@ public class CommonConsumerConfiguration {
 
     @Bean
     DefaultJmsListenerContainerFactory queueJmsListenerContainerFactory(
-        ConnectionFactory activeMQConnectionFactory,
+        ConnectionFactory activeMQConsumerConnectionFactory,
         DestinationResolver destinationResolver
     ) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
 
-        factory.setConnectionFactory(activeMQConnectionFactory);
+        factory.setConnectionFactory(activeMQConsumerConnectionFactory);
         factory.setDestinationResolver(destinationResolver);
 
         return factory;
@@ -45,7 +45,7 @@ public class CommonConsumerConfiguration {
     }
 
     @Bean
-    public ConnectionFactory activeMQConnectionFactory(
+    ConnectionFactory activeMQConsumerConnectionFactory(
         @Value("${jms.broker.url}") String brokerUrl
     ) {
         return new ActiveMQConnectionFactory(brokerUrl);
