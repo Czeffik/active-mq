@@ -12,3 +12,20 @@ Docker expose active-mq UI under:
 
 JMS address:
 - `localhost:61616`
+
+#### Manual tests
+
+Open admin/send page:
+- go to: `http://localhost:8161/admin/send.jsp`
+- **login/password:** _admin/admin_
+- select destination and type, currently supported destination:
+    * topics:
+        * InformationTopic
+        * VirtualTopic.InformationVirtualTopic
+    * queues:
+        * InformationQueue
+        * Consumer.InformationConsumer.VirtualTopic.InformationVirtualTopic - instead use topic: `VirtualTopic.InformationVirtualTopic` for sending messages
+        * Consumer.TranslationConsumer.VirtualTopic.InformationVirtualTopic - instead use topic: `VirtualTopic.InformationVirtualTopic` for sending messages
+- type message body
+- click send button
+

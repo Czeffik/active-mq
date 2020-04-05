@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
         InterfacesConfiguration.class
     }
 )
-@SpringBootApplication(exclude = ActiveMQAutoConfiguration.class)
+@SpringBootApplication(exclude = {ActiveMQAutoConfiguration.class})
 public class App {
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);

@@ -6,6 +6,8 @@ buildscript {
             mavenCentral()
         }
         lombokVersion = '1.18.12'
+        springJmsVersion = '5.2.5.RELEASE'
+        activemqSpringVersion = '5.15.12'
         springBootVersion = '2.2.6.RELEASE'
         jacksonDatabindVersion = '2.10.3'
         pitestVersion = '1.4.6'
@@ -33,6 +35,8 @@ repositories(repos)
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile "org.springframework:spring-jms:${springJmsVersion}"
+    compile "org.apache.activemq:activemq-spring:${activemqSpringVersion}"
 
     compile "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
     compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonDatabindVersion}"

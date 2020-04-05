@@ -1,3 +1,15 @@
 spring:
   main:
     web-application-type: none
+jms:
+  broker:
+    url: tcp://localhost:61616
+  topic:
+    information: InformationTopic
+    virtual:
+      information: VirtualTopic.InformationVirtualTopic
+  queue:
+    information: InformationQueue
+    virtual:
+      information: Consumer.InformationConsumer.${jms.topic.virtual.information}
+      translation: Consumer.TranslationConsumer.${jms.topic.virtual.information}
