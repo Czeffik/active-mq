@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class InformationDto {
+public class ToInformationDTOConverter {
     public static InformationDTO from(Information information) {
         return from(information.getMessage());
     }

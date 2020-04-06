@@ -21,7 +21,7 @@ public class GrpcInformationProducer implements StreamInformationProducer {
         List<StreamObserver<InformationDTO>> inactiveObservers = new ArrayList<>();
         observers.forEach(o -> {
             try {
-                o.onNext(InformationDto.from(message));
+                o.onNext(ToInformationDTOConverter.from(message));
             } catch (StatusRuntimeException ex) {
                 log.info("Scheduling observer to remove because: [{}]", ex.getMessage());
                 log.debug(Arrays.toString(ex.getStackTrace()));
