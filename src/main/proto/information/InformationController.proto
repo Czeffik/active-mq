@@ -1,0 +1,9 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.trzewik.activemq.interfaces.grpc.information;
+import "information/InformationForm.proto";
+import "information/InformationDTO.proto";
+
+service InformationController {
+    rpc getInformation(InformationForm) returns (com.trzewik.activemq.infrastructure.grpc.information.InformationDTO);
+}

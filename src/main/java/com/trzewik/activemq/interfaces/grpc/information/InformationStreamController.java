@@ -1,5 +1,6 @@
 package com.trzewik.activemq.interfaces.grpc.information;
 
+import com.trzewik.activemq.infrastructure.grpc.information.InformationDTO;
 import com.trzewik.activemq.infrastructure.grpc.information.StreamInformationProducer;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ public class InformationStreamController extends InformationStreamControllerGrpc
     private final StreamInformationProducer streamInformationProducer;
 
     @Override
-    public void open(MessageRequest request, StreamObserver<MessageResponse> responseObserver) {
+    public void open(InformationForm request, StreamObserver<InformationDTO> responseObserver) {
         log.info("Received GRPC request with id: [{}]", request.getId());
         streamInformationProducer.add(responseObserver);
     }
