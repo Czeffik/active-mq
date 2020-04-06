@@ -19,9 +19,7 @@ public class GrpcInformationProducer implements StreamInformationProducer {
         log.info("Notifying [{}] observers about new message: [{}]", observers.size(), message);
         observers.forEach(o -> {
             try {
-                o.onNext(InformationDTO.newBuilder()
-                    .setMessage(message)
-                    .build());
+                o.onNext(InformationDto.from(message));
             } catch (StatusRuntimeException ex) {
                 log.info("Removing observer because: [{}]", ex.getMessage());
                 log.debug(Arrays.toString(ex.getStackTrace()));

@@ -3,6 +3,7 @@ package com.trzewik.activemq.interfaces.grpc.information;
 import com.trzewik.activemq.domain.information.Information;
 import com.trzewik.activemq.domain.information.InformationService;
 import com.trzewik.activemq.infrastructure.grpc.information.InformationDTO;
+import com.trzewik.activemq.infrastructure.grpc.information.InformationDto;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +19,7 @@ public class InformationController extends InformationControllerGrpc.Information
     public void getInformation(InformationForm request, StreamObserver<InformationDTO> responseObserver) {
         log.info("Receive GRPC request wit id: [{}]", request.getId());
         Information information = informationService.getInformation(request.getId());
-        responseObserver.onNext(mapTo(information));
+        responseObserver.onNext(InformationDto.from(information));
         responseObserver.onCompleted();
-    }
-
-    private static InformationDTO mapTo(Information information) {
-        return InformationDTO.newBuilder()
-            .setMessage(information.getMessage())
-            .build();
     }
 }
