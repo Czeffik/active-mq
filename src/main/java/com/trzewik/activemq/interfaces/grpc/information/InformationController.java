@@ -15,10 +15,10 @@ public class InformationController extends InformationControllerGrpc.Information
 
     @Override
     public void getInformation(InformationRequest request, StreamObserver<InformationResponse> responseObserver) {
+        log.info("Receive GRPC request wit id: [{}]", request.getId());
         Information information = informationService.getInformation(request.getId());
         InformationResponse response = InformationResponse.newBuilder()
-            .setName(information.getName())
-            .setDescription(information.getDescription())
+            .setMessage(information.getMessage())
             .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();

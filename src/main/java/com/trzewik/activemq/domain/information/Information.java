@@ -7,6 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Information {
     private final String id;
-    private final String name;
-    private final String description;
+    private final String message;
 }

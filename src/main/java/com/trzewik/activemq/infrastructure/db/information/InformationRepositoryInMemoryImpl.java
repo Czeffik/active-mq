@@ -11,6 +11,6 @@ public class InformationRepositoryInMemoryImpl implements InformationRepository 
 
     @Override
     public Information getById(String id) {
-        return new Information(id, merge("name", id), merge("description", id));
+        return new Information(id, merge("message", id));
     }
 }
