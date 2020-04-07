@@ -14,8 +14,7 @@ class InformationConsumer {
     @JmsListener(destination = "${jms.topic.information}", containerFactory = "topicJmsListenerContainerFactory")
     public void subscribeTopic(String message) {
         log.info("Consumed message from information topic: [{}]", message);
-        informationService.notifyAllV2(message);
-        informationService.notify(message);
+        informationService.notifyAll(message);
     }
 
     @JmsListener(destination = "${jms.queue.information}", containerFactory = "queueJmsListenerContainerFactory")

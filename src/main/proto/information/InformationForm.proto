@@ -1,0 +1,7 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package com.trzewik.activemq.interfaces.grpc.information;
+
+message InformationForm {
+    string id = 1;
+}

@@ -8,19 +8,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jms.core.JmsTemplate;
 
+import java.util.Arrays;
+
 @Import({
     CommonProducerConfiguration.class
 })
 @Configuration
-public class InformationProducerConfiguration {
+public class JmsInformationProducerConfiguration {
 
     @Bean
     InformationProducer informationProducer(
         JmsTemplate jmsTemplate,
         @Value("${jms.queue.information}") String queue,
-        @Value("${jms.topic.information}") String topic,
         @Value("${jms.topic.virtual.information}") String virtualTopic
     ) {
-        return new InformationProducerImpl(jmsTemplate, queue, topic, virtualTopic);
+        return new JmsInformationProducer(jmsTemplate, Arrays.asList(queue, virtualTopic));
     }
 }

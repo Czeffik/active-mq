@@ -9,33 +9,13 @@ import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.jms.core.JmsTemplate;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class InformationProducerImpl implements InformationProducer {
+class JmsInformationProducer implements InformationProducer {
     private final JmsTemplate jmsTemplate;
-    //TODO - probably in real application it will be required to have different producer for every case
-    //in real application probably you will not send messages to three different destinations :D
-    private final String queue;
-    private final String topic;
-    private final String virtualTopic;
-
-    @Override
-    public void send(String message) {
-        log.info("Sending message: [{}], to queue: [{}]", message, queue);
-        jmsTemplate.convertAndSend(resolveDestination(queue), message);
-    }
-
-    @Override
-    public void publish(String message) {
-        log.info("Publishing message: [{}], on topic: [{}]", message, topic);
-        jmsTemplate.convertAndSend(resolveDestination(topic), message);
-    }
-
-    @Override
-    public void publishOnVirtualTopic(String message) {
-        log.info("Publishing message: [{}], on topic: [{}]", message, virtualTopic);
-        jmsTemplate.convertAndSend(resolveDestination(virtualTopic), message);
-    }
+    private final List<String> destinations;
 
     //TODO should be moved to DestinationResolverClass  - create some naming convention
     private static ActiveMQDestination resolveDestination(String destination) {
@@ -52,5 +32,11 @@ class InformationProducerImpl implements InformationProducer {
 
     private static boolean hasNotConsumer(String destination) {
         return !destination.contains("CONSUMER");
+    }
+
+    @Override
+    public void send(String message) {
+        log.info("Sending message: [{}], to: [{}]", message, destinations);
+        destinations.forEach(d -> jmsTemplate.convertAndSend(resolveDestination(d), message));
     }
 }

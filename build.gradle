@@ -9,9 +9,18 @@ buildscript {
         springJmsVersion = '5.2.5.RELEASE'
         activemqSpringVersion = '5.15.12'
         springBootVersion = '2.2.6.RELEASE'
+        grpcSpringBootStarter = '3.5.3'
         jacksonDatabindVersion = '2.10.3'
+        grpcVersion = '1.28.1'
+        protobufVersion = '3.11.4'
+
+        protobufPluginVersion = '0.8.12'
         pitestVersion = '1.4.6'
+
         repositories(repos)
+        dependencies {
+            classpath "com.google.protobuf:protobuf-gradle-plugin:${protobufPluginVersion}"
+        }
     }
 }
 
@@ -22,6 +31,7 @@ plugins {
     id 'idea'
     id 'org.springframework.boot' version "$springBootVersion"
     id 'info.solidsoft.pitest' version "$pitestVersion"
+    id 'com.google.protobuf' version "$protobufPluginVersion"
 }
 
 apply from: 'gradle/test.gradle'
@@ -37,6 +47,12 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
     implementation "org.springframework:spring-jms:${springJmsVersion}"
     implementation "org.apache.activemq:activemq-spring:${activemqSpringVersion}"
+
+    implementation "io.github.lognet:grpc-spring-boot-starter:${grpcSpringBootStarter}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-netty:${grpcVersion}"
+    implementation "com.google.protobuf:protobuf-java:${protobufVersion}"
 
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
     implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonDatabindVersion}"
@@ -56,4 +72,20 @@ bootJar {
 
 bootRun {
     main = 'com.trzewik.activemq.App'
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+    generateProtoTasks {
+        ofSourceSet('main')*.plugins {
+            grpc {}
+        }
+    }
 }
