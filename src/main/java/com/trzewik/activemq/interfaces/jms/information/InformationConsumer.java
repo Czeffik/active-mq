@@ -20,10 +20,12 @@ class InformationConsumer {
     @JmsListener(destination = "${jms.queue.information}", containerFactory = "queueJmsListenerContainerFactory")
     public void handleQueue(String message) {
         log.info("Consumed message from information queue: [{}]", message);
+        informationService.getInformation(message);
     }
 
     @JmsListener(destination = "${jms.queue.virtual.information}", containerFactory = "queueJmsListenerContainerFactory")
     public void handleVirtualTopic(String message) {
         log.info("Consumed message from information virtual topic: [{}]", message);
+        informationService.getInformation(message);
     }
 }
