@@ -37,7 +37,7 @@ class JmsProducer extends JmsClient {
         producer.send(message)
     }
 
-    void send(Message message, int deliveryMode, int priority, long timeToLive){
+    void send(Message message, int deliveryMode, int priority, long timeToLive) {
         producer.send(message, deliveryMode, priority, timeToLive)
     }
 

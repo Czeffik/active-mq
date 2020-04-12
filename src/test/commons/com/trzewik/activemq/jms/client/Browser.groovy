@@ -30,15 +30,15 @@ class Browser extends JmsClient {
         this.browser = createBrowser()
     }
 
-    boolean hasMessage(Message expectedMessage){
+    boolean hasMessage(Message expectedMessage) {
         return getMessages().contains(expectedMessage)
     }
 
-    List<Message> getMessages(){
+    List<Message> getMessages() {
         Enumeration enumeration = browser.enumeration
 
         List<Message> messages = []
-        while (enumeration.hasMoreElements()){
+        while (enumeration.hasMoreElements()) {
             messages << (Message) enumeration.nextElement()
         }
 

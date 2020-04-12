@@ -29,7 +29,7 @@ class JmsConsumer extends JmsClient {
         this.consumer = createConsumer()
     }
 
-    void setMessageListener(MessageListener listener){
+    void setMessageListener(MessageListener listener) {
         consumer.setMessageListener(listener)
     }
 
@@ -41,7 +41,7 @@ class JmsConsumer extends JmsClient {
         return consumer.receive(receiveTimeout)
     }
 
-    Message consumeNoWait(){
+    Message consumeNoWait() {
         return consumer.receiveNoWait()
     }
 
