@@ -8,6 +8,7 @@ import org.awaitility.Awaitility
 import javax.jms.ConnectionFactory
 import javax.jms.Message
 import javax.jms.Queue
+import javax.jms.TextMessage
 import java.time.Duration
 
 class JmsQueueTestHelper implements AutoCloseable {
@@ -39,17 +40,23 @@ class JmsQueueTestHelper implements AutoCloseable {
 
     void sendMessageAndWaitForAppear(Message message) {
         producer.send(message)
+        waitForMessageAppear(message)
+    }
+
+    void sendMessageAndWaitForAppear(String message) {
+        Message textMessage = producer.createTextMessage(message)
+        sendMessageAndWaitForAppear(textMessage)
+    }
+
+    void waitForMessageAppear(Message message) {
         Awaitility.await().atMost(duration).untilAsserted {
             browser.messages.contains(message)
         }
     }
 
-    void sendMessageAndWaitForAppear(String message) {
-        Message textMessage = producer.createTextMessage(message)
-
-        producer.send(textMessage)
+    void waitForTextMessageAppear(String message) {
         Awaitility.await().atMost(duration).untilAsserted {
-            browser.messages.contains(textMessage)
+            browser.messages.collect { Message tm -> ((TextMessage) tm).text }.contains(message)
         }
     }
 

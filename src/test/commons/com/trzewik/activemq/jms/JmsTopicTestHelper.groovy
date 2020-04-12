@@ -7,6 +7,7 @@ import org.awaitility.Awaitility
 
 import javax.jms.ConnectionFactory
 import javax.jms.Message
+import javax.jms.TextMessage
 import javax.jms.Topic
 import java.time.Duration
 
@@ -39,17 +40,23 @@ class JmsTopicTestHelper implements AutoCloseable {
 
     void sendMessageAndWaitForAppear(Message message) {
         producer.send(message)
-        Awaitility.await().atMost(duration).untilAsserted {
-            assert consumer.consume() == message
-        }
+        waitForMessageAppear(message)
     }
 
     void sendMessageAndWaitForAppear(String message) {
         Message textMessage = producer.createTextMessage(message)
+        sendMessageAndWaitForAppear(textMessage)
+    }
 
-        producer.send(textMessage)
+    void waitForTextMessageAppear(String message) {
         Awaitility.await().atMost(duration).untilAsserted {
-            assert consumer.consume() == textMessage
+            assert ((TextMessage) consumer.consume()).text == message
+        }
+    }
+
+    void waitForMessageAppear(Message message) {
+        Awaitility.await().atMost(duration).untilAsserted {
+            assert consumer.consume() == message
         }
     }
 

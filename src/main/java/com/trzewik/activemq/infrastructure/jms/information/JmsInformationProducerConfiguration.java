@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class JmsInformationProducerConfiguration {
 
     @Bean
-    InformationProducer informationProducer(
+    InformationProducer jmsInformationProducer(
         JmsTemplate jmsTemplate,
         @Value("${jms.queue.information}") String queue,
         @Value("${jms.topic.virtual.information}") String virtualTopic
