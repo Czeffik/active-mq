@@ -6,6 +6,7 @@ import com.trzewik.activemq.interfaces.InterfacesTestConfig
 import com.trzewik.activemq.jms.JmsQueueTestHelper
 import com.trzewik.activemq.jms.JmsTopicTestHelper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
@@ -26,6 +27,7 @@ import spock.lang.Specification
         'jms.queue.virtual.information=Consumer.InformationConsumerIT.${jms.topic.virtual.information}',
     ]
 )
+@DirtiesContext
 class InformationConsumerIT extends Specification {
 
     @Autowired
