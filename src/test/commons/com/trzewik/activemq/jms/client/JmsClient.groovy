@@ -1,4 +1,4 @@
-package com.trzewik.activemq
+package com.trzewik.activemq.jms.client
 
 import javax.jms.Connection
 import javax.jms.ConnectionFactory

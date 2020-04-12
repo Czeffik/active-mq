@@ -1,20 +1,16 @@
 package com.trzewik.activemq.interfaces.jms
 
-import com.trzewik.activemq.Browser
-import com.trzewik.activemq.JmsConsumer
-import com.trzewik.activemq.JmsProducer
+import com.trzewik.activemq.jms.JmsQueueTestHelper
+import com.trzewik.activemq.jms.JmsTopicTestHelper
 import com.trzewik.activemq.TestJmsConfig
 import com.trzewik.activemq.domain.information.InformationService
 import com.trzewik.activemq.interfaces.InterfacesTestConfig
 import com.trzewik.activemq.interfaces.jms.information.InformationConsumerConfiguration
-import org.awaitility.Awaitility
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
 import spock.lang.Specification
-
-import java.time.Duration
 
 @ActiveProfiles(['test', InterfacesTestConfig.PROFILE])
 @ContextConfiguration(classes = [
@@ -36,29 +32,17 @@ class InformationConsumerIT extends Specification {
     @Autowired
     InformationService informationServiceMock
     @Autowired
-    Browser browserInfoQueue
+    JmsTopicTestHelper jmsTopicTestHelperInformation
     @Autowired
-    Browser browserInfoVirtualQueue
+    JmsTopicTestHelper jmsTopicTestHelperInformationVirtual
     @Autowired
-    JmsConsumer consumerInformationTopic
-    @Autowired
-    JmsConsumer consumerInformationVirtualTopic
-    @Autowired
-    JmsProducer producerInformationTopic
-    @Autowired
-    JmsProducer producerInformationVirtualTopic
-    @Autowired
-    JmsProducer producerInformationQueue
+    JmsQueueTestHelper jmsQueueTestHelperInformation
 
     def 'should subscribe and consume information message from information topic'() {
         given:
             String message = 'Test message to information topic'
         when:
-            producerInformationTopic.send(message)
-        and:
-            Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted {
-                consumerInformationTopic.consume() != null
-            }
+            jmsTopicTestHelperInformation.sendMessageAndWaitForAppear(message)
         then:
             1 * informationServiceMock.notifyAll(message)
     }
@@ -67,11 +51,7 @@ class InformationConsumerIT extends Specification {
         given:
             String message = 'Test message to information queue'
         when:
-            producerInformationQueue.send(message)
-        and:
-            Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted {
-                browserInfoQueue.messages.size() == 1
-            }
+            jmsQueueTestHelperInformation.sendMessageAndWaitForAppear(message)
         then:
             1 * informationServiceMock.getInformation(message)
     }
@@ -80,11 +60,7 @@ class InformationConsumerIT extends Specification {
         given:
             String message = 'Test message to information virtual topic'
         when:
-            producerInformationVirtualTopic.send(message)
-        and:
-            Awaitility.await().atMost(Duration.ofSeconds(2)).untilAsserted {
-                consumerInformationVirtualTopic.consume() != null
-            }
+            jmsTopicTestHelperInformationVirtual.sendMessageAndWaitForAppear(message)
         then:
             1 * informationServiceMock.getInformation(message)
     }
