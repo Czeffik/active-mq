@@ -1,11 +1,10 @@
-package com.trzewik.activemq.interfaces.jms
+package com.trzewik.activemq.interfaces.jms.information
 
-import com.trzewik.activemq.jms.JmsQueueTestHelper
-import com.trzewik.activemq.jms.JmsTopicTestHelper
 import com.trzewik.activemq.TestJmsConfig
 import com.trzewik.activemq.domain.information.InformationService
 import com.trzewik.activemq.interfaces.InterfacesTestConfig
-import com.trzewik.activemq.interfaces.jms.information.InformationConsumerConfiguration
+import com.trzewik.activemq.jms.JmsQueueTestHelper
+import com.trzewik.activemq.jms.JmsTopicTestHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
