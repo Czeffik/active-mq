@@ -1,9 +1,11 @@
 package com.trzewik.activemq
 
+import com.trzewik.activemq.infrastructure.grpc.information.InformationDTO
 import com.trzewik.activemq.interfaces.grpc.information.InformationControllerGrpc
 import com.trzewik.activemq.interfaces.grpc.information.InformationStreamControllerGrpc
 import io.grpc.Channel
 import io.grpc.ManagedChannelBuilder
+import io.grpc.stub.StreamObserver
 import org.lognet.springboot.grpc.autoconfigure.GRpcServerProperties
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
@@ -21,6 +23,12 @@ class TestGrpcConfig {
     @Bean
     InformationStreamControllerGrpc.InformationStreamControllerStub informationStreamControllerStub(Channel testChannel) {
         return InformationStreamControllerGrpc.newStub(testChannel)
+    }
+
+    @Lazy
+    @Bean
+    List<StreamObserver<InformationDTO>> testObservers(){
+        return []
     }
 
     @Lazy
