@@ -1,6 +1,6 @@
 package com.trzewik.activemq.interfaces.jms.information
 
-import com.trzewik.activemq.TestJmsConfig
+import com.trzewik.activemq.JmsTestConfig
 import com.trzewik.activemq.domain.information.InformationService
 import com.trzewik.activemq.interfaces.InterfacesTestConfig
 import com.trzewik.activemq.jms.JmsQueueTestHelper
@@ -16,7 +16,7 @@ import spock.lang.Specification
 @ContextConfiguration(classes = [
     InformationConsumerConfiguration,
     InterfacesTestConfig,
-    TestJmsConfig
+    JmsTestConfig
 ])
 @TestPropertySource(
     properties = [
@@ -24,7 +24,7 @@ import spock.lang.Specification
         'jms.topic.information=InformationConsumerIT.topic',
         'jms.queue.information=InformationConsumerIT.queue',
         'jms.topic.virtual.information=VirtualTopic.InformationConsumerIT.topic',
-        'jms.queue.virtual.information=Consumer.InformationConsumerIT.${jms.topic.virtual.information}',
+        'jms.queue.virtual.information=Consumer.InformationConsumerIT.${jms.topic.virtual.information}'
     ]
 )
 @DirtiesContext

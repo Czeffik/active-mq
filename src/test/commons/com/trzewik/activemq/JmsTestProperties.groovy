@@ -1,6 +1,6 @@
 package com.trzewik.activemq
 
-class TestJmsProperties {
+class JmsTestProperties {
     String broker
     String topicInformation
     String topicVirtualInformation

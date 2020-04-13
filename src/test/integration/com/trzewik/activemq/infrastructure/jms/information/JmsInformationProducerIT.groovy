@@ -1,6 +1,6 @@
 package com.trzewik.activemq.infrastructure.jms.information
 
-import com.trzewik.activemq.TestJmsConfig
+import com.trzewik.activemq.JmsTestConfig
 import com.trzewik.activemq.domain.information.InformationProducer
 import com.trzewik.activemq.jms.JmsQueueTestHelper
 import com.trzewik.activemq.jms.JmsTopicTestHelper
@@ -14,7 +14,7 @@ import spock.lang.Specification
 @ActiveProfiles(['test'])
 @ContextConfiguration(classes = [
     JmsInformationProducerConfiguration,
-    TestJmsConfig
+    JmsTestConfig
 ])
 @TestPropertySource(
     properties = [

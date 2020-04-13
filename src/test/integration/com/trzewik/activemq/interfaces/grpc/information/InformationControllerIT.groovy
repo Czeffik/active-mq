@@ -1,6 +1,6 @@
 package com.trzewik.activemq.interfaces.grpc.information
 
-import com.trzewik.activemq.TestGrpcConfig
+import com.trzewik.activemq.GrpcTestConfig
 import com.trzewik.activemq.domain.information.Information
 import com.trzewik.activemq.domain.information.InformationService
 import com.trzewik.activemq.infrastructure.grpc.information.InformationDTO
@@ -17,7 +17,7 @@ import spock.lang.Specification
 
 @ActiveProfiles(['test', InterfacesTestConfig.PROFILE])
 @SpringBootTest(
-    classes = [GrpcInterfacesConfiguration, InterfacesTestConfig, TestGrpcConfig]
+    classes = [GrpcInterfacesConfiguration, InterfacesTestConfig, GrpcTestConfig]
 )
 @DirtiesContext
 class InformationControllerIT extends Specification {
