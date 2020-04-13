@@ -1,0 +1,88 @@
+package com.trzewik.activemq.infrastructure.grpc.information
+
+import com.trzewik.activemq.TestGrpcConfig
+import com.trzewik.activemq.grpc.InformationObserverFailingMock
+import com.trzewik.activemq.grpc.InformationObserverMock
+import com.trzewik.activemq.infrastructure.grpc.GrpcInfrastructureConfiguration
+import io.grpc.stub.StreamObserver
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
+import spock.lang.Specification
+
+@ActiveProfiles(['test'])
+@ContextConfiguration(
+    classes = [
+        GrpcInfrastructureConfiguration.class,
+        TestGrpcConfig.class
+    ]
+)
+class GrpcInformationProducerIT extends Specification {
+    @Autowired
+    StreamInformationProducer streamInformationProducer
+    @Autowired
+    List<StreamObserver<InformationDTO>> testObservers
+
+    def cleanup(){
+        testObservers.clear()
+    }
+
+    def 'should add new observer to observers list'() {
+        given:
+            InformationObserverMock observer = new InformationObserverMock()
+        when:
+            streamInformationProducer.add(observer)
+        then:
+            testObservers.size() == 1
+        and:
+            testObservers.first() == observer
+    }
+
+    def 'should send message to all observers'() {
+        given:
+            InformationObserverMock observer1 = new InformationObserverMock()
+            InformationObserverMock observer2 = new InformationObserverMock()
+            InformationObserverMock observer3 = new InformationObserverMock()
+            def observers = [observer1, observer2, observer3]
+        and:
+            observers.each { testObservers.add(it) }
+        and:
+            String message = 'TEST MESSAGE TO OBSERVERS'
+        when:
+            streamInformationProducer.send(message)
+        then:
+            observers.each { assert it.information.size() == 1 }
+        and:
+            observers.each { assert it.information.first().message == message }
+        and:
+            observers.each { assert !it.completed }
+        and:
+            observers.each { assert it.errors.size() == 0 }
+    }
+
+    def 'should send message to all observers and remove failing ones'() {
+        given:
+            def observer1 = new InformationObserverMock()
+            def observer2 = new InformationObserverMock()
+            def observer3 = new InformationObserverFailingMock()
+        and:
+            List<InformationObserverMock> passObservers = [observer1, observer2]
+            List<StreamObserver<InformationDTO>> observers = [observer3]
+            observers.addAll(passObservers)
+        and:
+            observers.each { testObservers.add(it) }
+        and:
+            String message = 'TEST MESSAGE TO OBSERVERS'
+        when:
+            streamInformationProducer.send(message)
+        then:
+            testObservers.size() == 2
+        and:
+            passObservers.each {
+                assert it.information.size() == 1
+                assert it.information.first().message == message
+                assert !it.completed
+                assert it.errors.size() == 0
+            }
+    }
+}

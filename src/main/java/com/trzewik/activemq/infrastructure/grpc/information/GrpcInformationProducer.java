@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class GrpcInformationProducer implements StreamInformationProducer {
-    private final List<StreamObserver<InformationDTO>> observers = new LinkedList<>();
+    private final List<StreamObserver<InformationDTO>> observers;
 
     @Override
     public synchronized void send(String message) {
