@@ -10,7 +10,7 @@ import org.lognet.springboot.grpc.GRpcService;
 @Slf4j
 @RequiredArgsConstructor
 @GRpcService
-public class InformationStreamController extends InformationStreamControllerGrpc.InformationStreamControllerImplBase {
+class InformationStreamController extends InformationStreamControllerGrpc.InformationStreamControllerImplBase {
     private final StreamInformationProducer streamInformationProducer;
 
     @Override
