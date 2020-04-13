@@ -9,7 +9,7 @@ topic specified by `jms.topic.information` property as default: `InformationTopi
 - Send message to **ActiveMQ** topic specified by `jms.topic.information` property as default: `InformationTopic`
 - Application should send received message (with modifications done in `InfromationService`) via **GRPC** to subscribed clients
     - when client is disconnected will be removed from subscriber list
-    - stream can be closed only by client - application will be sending updates until client is not closed
+    - stream can be closed only by disconnecting client - application will be sending updates until client is connected
 
 ### Build
 ```shell script
