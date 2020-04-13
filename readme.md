@@ -1,4 +1,15 @@
-# Active mq sample app
+# Active mq and GRPC server sample app
+
+This application connect to **ActiveMQ** server on address specified by `jms.broker.url` property. Consume messages from
+topic specified by `jms.topic.information` property as default: `InformationTopic` and send consumed messages via
+**GRPC** to consumers which have opened subscription.
+
+**Example scenario:**
+- Subscribe via **GRPC** to `InformationStreamingController` - [example client implementation](https://github.com/Czeffik/grpc-client)
+- Send message to **ActiveMQ** topic specified by `jms.topic.information` property as default: `InformationTopic`
+- Application should send received message (with modifications done in `InfromationService`) via **GRPC** to subscribed clients
+    - when client is disconnected will be removed from subscriber list
+    - stream can be closed only by client - application will be sending updates until client is not closed
 
 ### Build
 ```shell script
@@ -8,14 +19,16 @@ build is **required** for development because generate *JAVA* classes from `*.pr
 
 ### Setup environment
 
-This steps are required by application, if you only want run application for testing `GRPC` just comment in `com.trzewik.activemq.interfaces.InterfacesConfiguration`
-line with `JmsInterfacesConfiguration.class` and in `com.trzewik.activemq.infrastructure.InfrastructureConfiguration` line with `JmsInfrastructureConfiguration.class,`
-
-**Start docker compose:**
+**Start docker compose with ActiveMQ:**
 ```shell script
 docker-compose up
 ```
-**Docker expose active-mq UI under:**
+
+You can skip this step if you have running ActiveMQ server. If so, replace `jms.broker.url` with your ActiveMQ address
+in `application.yml` or override this property with your address when starting application ([MORE INFORMATION HERE](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config))
+
+
+**Docker compose expose active-mq UI under:**
 - User ui: `localhost:8161`
 - Admin page: `localhost:8161/admin/`
 
@@ -35,47 +48,16 @@ Open admin/send page:
     * queues:
         * InformationQueue
         * Consumer.InformationConsumer.VirtualTopic.InformationVirtualTopic - instead use topic: `VirtualTopic.InformationVirtualTopic` for sending messages
-        * Consumer.TranslationConsumer.VirtualTopic.InformationVirtualTopic - instead use topic: `VirtualTopic.InformationVirtualTopic` for sending messages
 - type message body
 - click send button
 
-**When sending message to**: `InformationTopic` - it will trigger sending messages to `InformationQueue`, `VirtualTopic.InformationVirtualTopic` and by `GRPC`
+**When sending message to**: `InformationTopic` - it will trigger sending messages to `InformationQueue`, `VirtualTopic.InformationVirtualTopic`
+and to all clients which have opened subscription via `GRPC` with `InformationStreamController`.
 
 ##### GRPC
 
-For testing GRPC you will require client. I am using [BloomRPC](https://github.com/uw-labs/bloomrpc/releases).
+For testing GRPC you can write your own client which will use proto files from this project or use already written [CLIENT](https://github.com/Czeffik/grpc-client)
 
-GRPC is exposed on `localhost:6789`
+**GRPC server** is exposed on `localhost:6789` as default, you can override port by overriding `grpc.port` property.
 
-**How to test with BloomRPC**
-
-***Basic GRPC scenario:* consumer sends request and server sends response:**
-- open *BloomRPC* app - I recommend to show GIF in [README FILE](https://github.com/uw-labs/bloomrpc) to know how use this tool
-- import proto file from: `src/main/proto/InformationController.proto`
-- set server address as `localhost:6789`
-
-By importing proto file, BloomRPC will generate example request, which will looks like:
-```json
-{
-  "id": "Example ID"
-}
-```
-
-After clicking play button (sending request), you should expect response like:
-```json
-{
-  "name": "name for: [Example ID]",
-  "description": "description for: [Example ID]"
-}
-```
-
-***Streaming GRPC scenario:* consumer sends request and server starts streaming responses:**
-
-- GRPC react on new message on ActiveMQ topic: `InformationTopic`
-- open *BloomRPC* app - I recommend to show GIF in [README FILE](https://github.com/uw-labs/bloomrpc) to know how use this tool
-- import proto file from: `src/main/proto/InformationStreamController.proto`
-- set server address as `localhost:6789`
-- send request and wait for server response
-- for producing server response use **ActiveMQ console** and send message to: `InformationTopic`
-
-
+For manual testing read `README.md` file in [CLIENT](https://github.com/Czeffik/grpc-client) repository.

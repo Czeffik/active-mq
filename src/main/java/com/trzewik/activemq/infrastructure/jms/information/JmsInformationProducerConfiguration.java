@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.Queue;
+import javax.jms.Topic;
 import java.util.Arrays;
 
 @Configuration
@@ -18,13 +20,23 @@ public class JmsInformationProducerConfiguration {
     @Bean
     InformationProducer jmsInformationProducer(
         JmsTemplate jmsTemplate,
-        @Value("${jms.queue.information}") String queue,
-        @Value("${jms.topic.virtual.information}") String virtualTopic
+        Queue informationQueue,
+        Topic informationVirtualTopic
     ) {
         return new JmsInformationProducer(
             jmsTemplate,
-            Arrays.asList(new ActiveMQQueue(queue), new ActiveMQTopic(virtualTopic))
+            Arrays.asList(informationQueue, informationVirtualTopic)
         );
+    }
+
+    @Bean
+    Queue informationQueue(@Value("${jms.queue.information}") String queue) {
+        return new ActiveMQQueue(queue);
+    }
+
+    @Bean
+    Topic informationVirtualTopic(@Value("${jms.topic.virtual.information}") String virtualTopic) {
+        return new ActiveMQTopic(virtualTopic);
     }
 
     @Bean
