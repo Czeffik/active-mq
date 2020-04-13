@@ -1,6 +1,6 @@
 package com.trzewik.activemq.interfaces.grpc.information
 
-import com.trzewik.activemq.TestGrpcConfig
+import com.trzewik.activemq.GrpcTestConfig
 import com.trzewik.activemq.grpc.InformationObserverMock
 import com.trzewik.activemq.grpc.StreamInformationProducerMock
 import com.trzewik.activemq.infrastructure.grpc.information.InformationDTO
@@ -18,7 +18,7 @@ import java.time.Duration
 
 @ActiveProfiles(['test', InterfacesTestConfig.PROFILE])
 @SpringBootTest(
-    classes = [GrpcInterfacesConfiguration, InterfacesTestConfig, TestGrpcConfig]
+    classes = [GrpcInterfacesConfiguration, InterfacesTestConfig, GrpcTestConfig]
 )
 @DirtiesContext
 class InformationStreamControllerIT extends Specification {

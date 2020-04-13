@@ -11,41 +11,41 @@ import org.springframework.context.annotation.Lazy
 import javax.jms.ConnectionFactory
 
 @TestConfiguration
-class TestJmsConfig {
+class JmsTestConfig {
 
     @Lazy
     @Bean(destroyMethod = 'close')
-    JmsTopicTestHelper jmsTopicTestHelperInformation(ConnectionFactory testConnectionFactory, TestJmsProperties testJmsProperties) {
+    JmsTopicTestHelper jmsTopicTestHelperInformation(ConnectionFactory testConnectionFactory, JmsTestProperties testJmsProperties) {
         return new JmsTopicTestHelper(testConnectionFactory, testJmsProperties.topicInformation)
     }
 
     @Lazy
     @Bean(destroyMethod = 'close')
-    JmsTopicTestHelper jmsTopicTestHelperInformationVirtual(ConnectionFactory testConnectionFactory, TestJmsProperties testJmsProperties) {
+    JmsTopicTestHelper jmsTopicTestHelperInformationVirtual(ConnectionFactory testConnectionFactory, JmsTestProperties testJmsProperties) {
         return new JmsTopicTestHelper(testConnectionFactory, testJmsProperties.topicVirtualInformation)
     }
 
     @Lazy
     @Bean(destroyMethod = 'close')
-    JmsQueueTestHelper jmsQueueTestHelperInformation(ConnectionFactory testConnectionFactory, TestJmsProperties testJmsProperties) {
+    JmsQueueTestHelper jmsQueueTestHelperInformation(ConnectionFactory testConnectionFactory, JmsTestProperties testJmsProperties) {
         return new JmsQueueTestHelper(testConnectionFactory, testJmsProperties.queueInformation)
     }
 
     @Lazy
     @Bean
-    ConnectionFactory testConnectionFactory(TestJmsProperties testJmsProperties) {
+    ConnectionFactory testConnectionFactory(JmsTestProperties testJmsProperties) {
         return new ActiveMQConnectionFactory(testJmsProperties.broker)
     }
 
     @Bean
-    TestJmsProperties testJmsProperties(
+    JmsTestProperties testJmsProperties(
         @Value('${jms.broker.url}') broker,
         @Value('${jms.topic.information}') infoTopic,
         @Value('${jms.topic.virtual.information}') infoVirtualTopic,
         @Value('${jms.queue.information}') infoQueue,
         @Value('${jms.queue.virtual.information}') infoVirtualQueue
     ) {
-        return new TestJmsProperties(
+        return new JmsTestProperties(
             broker: broker,
             topicInformation: infoTopic,
             topicVirtualInformation: infoVirtualTopic,
